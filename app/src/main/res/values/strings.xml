@@ -5,4 +5,5 @@
     <string name="settings">settings</string>
     <string name="done">done</string>
     <string name="reset">reset</string>
+    <string name="speed_1000ms_tick">Speed: 1000ms/tick</string>
 </resources>

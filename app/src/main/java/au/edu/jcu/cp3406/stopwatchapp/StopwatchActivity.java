@@ -1,8 +1,10 @@
 package au.edu.jcu.cp3406.stopwatchapp;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -26,15 +28,15 @@ public class StopwatchActivity extends AppCompatActivity {
 
         display = findViewById(R.id.display);
         toggle = findViewById(R.id.toggle);
-
-        speed = 1000;
         isRunning = false;
         if (savedInstanceState == null){
             stopwatch = new Stopwatch();
+            speed = 1000;
         }
         else {
             stopwatch = new Stopwatch(savedInstanceState.getString("value"));
             display.setText(stopwatch.toString());
+            speed = savedInstanceState.getInt("speed");
             boolean running = savedInstanceState.getBoolean("running");
             if (running){
                 enableStopwatch();
@@ -43,10 +45,11 @@ public class StopwatchActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onSaveInstanceState(Bundle outState){
+    protected void onSaveInstanceState(@NonNull Bundle outState){
         super.onSaveInstanceState(outState);
         outState.putString("value", stopwatch.toString());
         outState.putBoolean("running", isRunning);
+        outState.putInt("speed", speed);
     }
 
     @SuppressLint("SetTextI18n")
@@ -66,6 +69,7 @@ public class StopwatchActivity extends AppCompatActivity {
         });
     }
 
+    @SuppressLint("SetTextI18n")
     private void disableStopwatch(){
         toggle = (Button) findViewById(R.id.toggle);
         toggle.setText("start");
@@ -89,8 +93,23 @@ public class StopwatchActivity extends AppCompatActivity {
 
     public void settingsClicked(View view){
         Intent intent = new Intent(this, SettingsActivity.class);
+        intent.putExtra("speed", speed);
         startActivityForResult(intent, SettingsActivity.SETTINGS_REQUEST);
     }
+
+    /**
+     * help from: https://stackoverflow.com/questions/6413700/android-proper-way-to-use-onbackpressed-with-toast
+     */
+    public void onBackPressed (){
+        new AlertDialog.Builder(this)
+                .setTitle("Really Exit?")
+                .setMessage("Are you sure you want to exit?")
+                .setNegativeButton("no", null)
+                //.setNeutralButton("maybe",null)
+                .setPositiveButton("yes",
+                        (arg0, arg1) -> StopwatchActivity.super.onBackPressed()).create().show();
+    }
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data){

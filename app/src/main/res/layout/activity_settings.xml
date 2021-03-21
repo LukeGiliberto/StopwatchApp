@@ -7,15 +7,22 @@
     android:orientation="vertical"
     tools:context=".SettingsActivity">
 
-    <EditText
+
+    <TextView
+        android:id="@+id/speedGauge"
+        android:layout_width="match_parent"
+        android:layout_height="50sp"
+        android:textSize="36sp"
+        android:textAlignment="center"
+        android:text="@string/speed_1000ms_tick" />
+
+    <SeekBar
         android:id="@+id/speed"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textSize="50sp"
+        android:layout_height="50sp"
         android:textAlignment="center"
-        android:inputType="number"
-        android:autofillHints=""
-        tools:ignore="LabelFor" />
+        android:max="1500"
+        android:progress="500"/>
 
     <Button
         android:id="@+id/done"

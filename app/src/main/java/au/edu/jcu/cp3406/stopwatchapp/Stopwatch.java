@@ -12,16 +12,16 @@ class Stopwatch {
     }
 
     Stopwatch(String time){
-        String savedTime[] = time.split(":");
+        String[] savedTime = time.split(":");
         hours = Integer.parseInt(savedTime[0]);
         minutes = Integer.parseInt(savedTime[1]);
         seconds = Integer.parseInt(savedTime[2]);
     }
 
     void tick (){
-        if (seconds == 59){
+        if (seconds == 59){ //60 seconds reached
             seconds = 0;
-            if (minutes == 59){
+            if (minutes == 59){ //60 minutes reached
                 minutes = 0;
                 hours++;
             }
